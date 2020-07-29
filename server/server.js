@@ -4,7 +4,7 @@ var app = express();
 
 
 // ROUTING TO INDEX.HTML
-var urlpath = path.join(__dirname, '../frontend/')
+var urlpath = path.join(__dirname, '../frontend/build')
 app.use(express.static(urlpath))
 
 
