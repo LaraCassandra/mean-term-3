@@ -1,10 +1,16 @@
 var path = require('path');
 var express = require('express');
 var app = express();
+var logger = require('./logger')
 
 
 // ROUTING TO INDEX.HTML
 var urlpath = path.join(__dirname, '../frontend/build')
+
+// LOGS INFORMATION THAT NEED TO KNOW WHAT IS HAPPENING
+app.use(logger)
+
+// MIDDLEWARE THAT CHECKS TO SEE IF THE FILES WE ARE SEARCHING FOR ARE STATIC
 app.use(express.static(urlpath))
 
 
