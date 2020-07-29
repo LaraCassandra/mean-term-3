@@ -1,14 +1,14 @@
+var path = require('path');
 var express = require('express');
 var app = express();
 
 
-// ROUTING
-app.get('/', (req, res) => {
-    res.send('<h3>Hello World</h3>');
-})
+// ROUTING TO INDEX.HTML
+var urlpath = path.join(__dirname, '../frontend/')
+app.use(express.static(urlpath))
 
 
-// SEND JSON DATA - CLASSES, TEACHERS, LEARNERS
+// SEND JSON DATA - CLASSES, SLOTS, TEACHERS, LEARNERS
 app.get('/api/v1/classes', (req, res) => {
     var classes = [
         { id: 01, slot: 3, subject: "Grade 10 English", group: 1, classroom: "A1" },
