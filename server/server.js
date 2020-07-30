@@ -1,8 +1,11 @@
-var path = require('path');
-var express = require('express');
-var app = express();
+var path = require('path')
+var express = require('express')
+var app = express()
+var port = 8000
 var logger = require('./logger')
 
+// LINK DATA.JS FILE
+var data = require('./data')
 
 // ROUTING TO INDEX.HTML
 var urlpath = path.join(__dirname, '../frontend/build')
@@ -136,13 +139,7 @@ app.get('/api/v1/learners', (req, res) => {
 // END OF SENDING JSON DATA
 
 
-// REDIRECTING
-app.get('/home', (req, res) => {
-    res.redirect(301, '/');
-})
-
-
 // DEPLOY THE APPLICATION
-app.listen(8000, () => {
-    console.log('Listening on port 8000')
+app.listen(port, () => {
+    console.log(`Listening on port ${port}`)
 });
