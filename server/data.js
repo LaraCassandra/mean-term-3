@@ -102,4 +102,6 @@ var learners = [
     { id: 03, name: "Jeffery Medina", classes: [21, 24, 25, 27, 28, 30] }
 ];
 
+
+// EXPORT THE DATA
 module.exports = { classes: classes, slots: slots, teachers: teachers, learners: learners };

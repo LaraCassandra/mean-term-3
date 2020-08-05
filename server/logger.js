@@ -1,3 +1,6 @@
+// MIDDLEWARE THAT LOGS OUTPUT WHENEVER WE RECEIVE A REQUEST
+// CAN TIME THE REQUESTS
+
 module.exports = function (request, response, next) {
 
     var start = + new Date();

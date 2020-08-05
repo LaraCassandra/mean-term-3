@@ -10,7 +10,7 @@ var data = require('./data')
 // ROUTING TO INDEX.HTML
 var urlpath = path.join(__dirname, '../frontend/build')
 
-// LOGS INFORMATION THAT NEED TO KNOW WHAT IS HAPPENING
+// CALLS LOGGER.JS THAT LOGS THE REQUESTS
 app.use(logger)
 
 // MIDDLEWARE THAT CHECKS TO SEE IF THE FILES WE ARE SEARCHING FOR ARE STATIC
