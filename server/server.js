@@ -190,7 +190,7 @@ app.get('/api/learners/:id/classes', (req, res) => {
         }
         learnersClasses.push(data.classes[i].subject);
     }
-    res.json(data.learners[i].name);
+    res.json(learnerName + "attends these classes: " + learnersClasses;
 });
 
 // END OF CALLING JSON DATA FROM DATA.JS
