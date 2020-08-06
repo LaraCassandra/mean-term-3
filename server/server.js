@@ -2,141 +2,201 @@ var path = require('path')
 var express = require('express')
 var app = express()
 var port = 8000
+
+// LINK LOGGER.JS
 var logger = require('./logger')
 
-// LINK DATA.JS FILE
+// LINK DATA.JS
 var data = require('./data')
+const { time } = require('console')
+const { teachers } = require('./data')
+const { json, response } = require('express')
 
 // ROUTING TO INDEX.HTML
 var urlpath = path.join(__dirname, '../frontend/build')
 
-// CALLS LOGGER.JS THAT LOGS THE REQUESTS
+
+
+
+
+//MIDDLEWARE
+
+// LOGS THE REQUESTS
 app.use(logger)
 
-// MIDDLEWARE THAT CHECKS TO SEE IF THE FILES WE ARE SEARCHING FOR ARE STATIC
+// CHECKS IF THE FILES WE ARE SEARCHING FOR ARE STATIC
 app.use(express.static(urlpath))
 
+//END OF MIDDLEWARE
 
-// SEND JSON DATA - CLASSES, SLOTS, TEACHERS, LEARNERS
-app.get('/api/v1/classes', (req, res) => {
-    var classes = [
-        { id: 01, slot: 3, subject: "Grade 10 English", group: 1, classroom: "A1" },
-        { id: 02, slot: 2, subject: "Grade 10 English", group: 2, classroom: "C1" },
-        { id: 03, slot: 1, subject: "Grade 10 Afrikaans", group: 1, classroom: "A2" },
-        { id: 04, slot: 5, subject: "Grade 10 Afrikaans", group: 2, classroom: "C2" },
-        { id: 05, slot: 4, subject: "Grade 10 History", group: 1, classroom: "Hall" },
-        { id: 06, slot: 2, subject: "Grade 10 Mathematics", group: 1, classroom: "B1" },
-        { id: 07, slot: 6, subject: "Grade 10 Physical Science", group: 1, classroom: "Lab" },
-        { id: 08, slot: 1, subject: "Grade 10 Biology", group: 1, classroom: "Lab" },
-        { id: 09, slot: 5, subject: "Grade 10 Accounting", group: 1, classroom: "Hall" },
-        { id: 10, slot: 4, subject: "Grade 10 Life Orientation", group: 1, classroom: "B3" },
-        { id: 11, slot: 1, subject: "Grade 11 English", group: 1, classroom: "A1" },
-        { id: 12, slot: 6, subject: "Grade 11 English", group: 2, classroom: "C1" },
-        { id: 13, slot: 3, subject: "Grade 11 Afrikaans", group: 1, classroom: "A2" },
-        { id: 14, slot: 2, subject: "Grade 11 Afrikaans", group: 2, classroom: "C2" },
-        { id: 15, slot: 1, subject: "Grade 11 History", group: 1, classroom: "Hall" },
-        { id: 16, slot: 2, subject: "Grade 11 Mathematics", group: 1, classroom: "B1" },
-        { id: 17, slot: 3, subject: "Grade 11 Physical Science", group: 1, classroom: "Lab" },
-        { id: 18, slot: 4, subject: "Grade 11 Biology", group: 1, classroom: "Lab" },
-        { id: 19, slot: 5, subject: "Grade 11 Accounting", group: 1, classroom: "Hall" },
-        { id: 20, slot: 6, subject: "Grade 11 Life Orientation", group: 1, classroom: "B3" },
-        { id: 21, slot: 4, subject: "Grade 12 English", group: 1, classroom: "A1" },
-        { id: 22, slot: 5, subject: "Grade 12 English", group: 2, classroom: "C1" },
-        { id: 23, slot: 6, subject: "Grade 12 Afrikaans", group: 1, classroom: "A2" },
-        { id: 24, slot: 1, subject: "Grade 12 Afrikaans", group: 2, classroom: "C2" },
-        { id: 25, slot: 2, subject: "Grade 12 History", group: 1, classroom: "Hall" },
-        { id: 26, slot: 3, subject: "Grade 12 Mathematics", group: 1, classroom: "B1" },
-        { id: 27, slot: 5, subject: "Grade 12 Physical Science", group: 1, classroom: "Lab" },
-        { id: 28, slot: 6, subject: "Grade 12 Biology", group: 1, classroom: "Lab" },
-        { id: 29, slot: 6, subject: "Grade 12 Accounting", group: 1, classroom: "Hall" },
-        { id: 30, slot: 3, subject: "Grade 12 Life Orientation", classroom: "B3" }
-    ];
-    res.json(classes);
+
+
+
+
+// CALL JSON DATA FROM DATA.JS
+
+// LIST OF ALL CLASSES
+app.get('/api/classes', (req, res) => {
+    if (req.query.limit >= 0) {
+        res.json(data.classes.slice(0, req.query.limit));
+    }
+    else {
+        res.json(data.classes);
+    }
 })
 
+// LIST OF ALL SUBJECTS
+app.get('/api/subjects', (req, res) => {
+    var subjectList = "";
 
-app.get('api/v1/slots', (req, res) => {
-    var slots = [
-        {
-            slot: 1, times: [
-                { day: "Mon", period: 2 },
-                { day: "Tue", period: 4 },
-                { day: "Wed", period: 3 },
-                { day: "Thu", period: 5 },
-                { day: "Fri", period: 1 }
-            ]
-        },
-        {
-            slot: 2, times: [
-                { day: "Mon", period: 4 },
-                { day: "Tue", period: 3 },
-                { day: "Wed", period: 4 },
-                { day: "Thu", period: 1 },
-                { day: "Fri", period: 2 }
-            ]
-        },
-        {
-            slot: 3, times: [
-                { day: "Mon", period: 5 },
-                { day: "Tue", period: 5 },
-                { day: "Wed", period: 2 },
-                { day: "Thu", period: 6 },
-                { day: "Fri", period: 3 }
-            ]
-        },
-        {
-            slot: 4, times: [
-                { day: "Mon", period: 1 },
-                { day: "Tue", period: 2 },
-                { day: "Wed", period: 6 },
-                { day: "Thu", period: 3 },
-                { day: "Fri", period: 6 }
-            ]
-        },
-        {
-            slot: 5, times: [
-                { day: "Mon", period: 6 },
-                { day: "Tue", period: 6 },
-                { day: "Wed", period: 1 },
-                { day: "Thu", period: 4 },
-                { day: "Fri", period: 4 }
-            ]
-        },
-        {
-            slot: 6, times: [
-                { day: "Mon", period: 3 },
-                { day: "Tue", period: 1 },
-                { day: "Wed", period: 5 },
-                { day: "Thu", period: 2 },
-                { day: "Fri", period: 5 }
-            ]
+    for (var i = 0; i < data.classes.length; i++) {
+        subjectList = subjectList + data.classes[i].subject + "; ";
+    }
+
+    res.json(subjectList);
+})
+
+// SEARCH CLASS BY ID 
+app.get('/api/classes/:id', (req, res) => {
+    var id = req.params.id;
+    var classId = null;
+    for (var i = 0; 0 < data.classes.length; i++) {
+        if (data.classes[i].id === parseInt(id)) {
+            classId = data.classes[i];
+            res.json(classId);
         }
-    ];
-    res.json(slots);
+    }
+    if (classId == null) {
+        res.status(404).json("No class with id found");
+    }
+})
+
+// GET DETAILS OF SPECIFIC CLASS BY ID
+app.get('/api/classes/:id/details', (req, res) => {
+
+    // VARIABLES
+    // TEACHER
+    var teacherName = null;
+    var classSubject = null;
+    var id = req.params.id;
+
+    // STUDENTS
+    var classStudents = "";
+
+    // SLOTS
+    var classSlot = null;
+    var slotTime = "";
+    var slotDay = "";
+    var timeSlot = "";
+
+    // CLASS NUMBER
+    var classNumber = null;
+
+    // FUNCTIONS
+    // FIND CLASS BY ID, GET CLASS SLOT, SUBJECT & NUMBER
+    for (var i = 0; i < data.classes.length; i++) {
+        if (data.classes[i].id === parseInt(id)) {
+            classSlot = data.classes[i].slot;
+            classSubject = data.classes[i].subject;
+            classNumber = data.classes[i].classroom;
+        }
+    }
+
+    // FIND TEACHER OF CLASS
+    for (var i = 0; i < data.teachers.length; i++) {
+        for (var j = 0; j < data.teachers[i].classes.length; j++) {
+            if (data.teachers[i].classes[j] === parseInt(id)) {
+                teacherName = data.teachers[i].name;
+
+
+            }
+
+        }
+
+    }
+
+    //FIND STUDENTS OF CLASS
+    for (var i = 0; i < data.learners.length; i++) {
+        for (var j = 0; j < data.learners[i].classes.length; j++) {
+            if (data.learners[i].classes[j] === parseInt(id)) {
+                classStudents = classStudents + data.learners[i].name + " ";
+            }
+
+        }
+
+    }
+
+    // FIND DAY AND PERIODS OF CLASS
+    for (var i = 0; i < data.slots.length; i++) {
+        for (var j = 0; j < data.slots[i].times.length; j++) {
+            if (data.slots[i].slot === parseInt(classSlot)) {
+                slotDay = data.slots[i].times[j].day;
+                slotTime = data.slots[i].times[j].period;
+                timeSlot = timeSlot + " Day:" + slotDay + " Period:" + slotTime;
+            }
+        }
+
+    }
+
+    res.json("Class: " + classSubject + ". Teacher: " + teacherName + ". Students: " + classStudents + ". Classroom: " + classNumber + ". Slots:" + timeSlot)
+
+}); // END OF CLASS DETAILS
+
+
+//GET THE BRIEF
+app.get('/api/brief', (req, res) => {
+    res.json(data.brief)
+})
+
+// SEARCH TEACHER BY ID
+app.get('/api/teachers/:id', (req, res) => {
+    var id = req.params.id;
+    var teachId = null;
+    for (var i = 0; 0 < data.teachers.length; i++) {
+        if (data.teachers[i].id === parseInt(id)) {
+            teachId = data.teachers[i];
+            res.json(teachId);
+        }
+    }
+    if (teachId == null) {
+        res.status(404).json("No teacher with id found");
+    }
 })
 
 
-app.get('/api/v1/teachers', (req, res) => {
-    var teachers = [
-        { id: 01, name: "Mr Hunt", email: "hunt@highschool.com", password: "1234", classes: [1, 2, 11, 12, 21, 22] },
-        { id: 02, name: "Mr Mclaughlin", email: "mclaughlin@highschool.com", password: "2345", classes: [6, 7, 26, 27] },
-        { id: 03, name: "Ms Berger", email: "berger@highschool.com", password: "3456", classes: [3, 4, 13, 14, 23] },
-        { id: 04, name: "Ms Murray", email: "murray@highschool.com", password: "4567", classes: [8, 9, 29, 30] },
-        { id: 05, name: "Mr Simpson", email: "simpson@highschool.com", password: "5678", classes: [5, 15, 25, 30] }
-    ];
-    res.json(teachers);
-})
+// GET CLASSES TAUGHT BY SPECIFIC TEACHER
+app.get('/api/teachers/:id/classes', (req, res) => {
+    var teacherName = null;
+    var teachersClasses = [];
+    var id = req.params.id;
+    for (var i = 0; i < data.teachers.length; i++) {
+        if (data.teachers[i].id === parseInt(id)) {
+            teachersClasses = data.teachers[i].classes;
+            teacherName = data.teachers[i].name;
+        }
+    }
+    res.json(teacherName + " teaches classes: " + teachersClasses);
+});
 
 
-app.get('/api/v1/learners', (req, res) => {
-    var learners = [
-        { id: 01, name: "Ian Reid", classes: [1, 3, 5, 6, 7, 9] },
-        { id: 02, name: "Lynne Brock", classes: [12, 13, 15, 16, 18, 19] },
-        { id: 03, name: "Jeffery Medina", classes: [21, 24, 25, 27, 28, 30] }
-    ];
-    res.json(learners);
-})
-// END OF SENDING JSON DATA
+// GET CLASSES ATTENDED BY SPECIFIC STUDENTS
+app.get('/api/learners/:id/classes', (req, res) => {
+    var learnerName = null;
+    var learnersClasses = [];
+    var id = req.params.id;
+    for (var i = 0; i < data.learners.length; i++) {
+        if (data.learners[i].id === parseInt(id)) {
+            learnerName = data.learners[i].name;
+        }
+        learnersClasses.push(data.classes[i].subject);
+    }
+    res.json(data.learners[i].name);
+});
+
+// END OF CALLING JSON DATA FROM DATA.JS
+
+
+
 
 
 // DEPLOY THE APPLICATION
