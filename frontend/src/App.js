@@ -1,15 +1,30 @@
 import React from 'react';
 import './App.css';
 import { Navigation } from './components/Navigation.js'
+import { Home } from './components/Home.js'
+import Login from './Components/Login'
 
 function App() {
   return (
-    <div className="App">
-      <Navigation />
+    <Router>
+      <nav>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/login">Login</Link>
+        </li>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+      </nav>
 
-      <h1>THIS IS A TEST TO EDIT THE APP.JS</h1>
+      <Switch>
+        <Route path="/about">
 
-    </div>
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 

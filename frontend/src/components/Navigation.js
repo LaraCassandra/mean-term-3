@@ -1,6 +1,6 @@
-import React from 'react'
-import { AppBar, Button, Toolbar, makeStyles, Typography } from '@material-ui/core'
-import { red } from '@material-ui/core/colors'
+import React from './node_modules/react'
+import { AppBar, Button, Toolbar, makeStyles, Typography } from './node_modules/@material-ui/core'
+import { red } from './node_modules/@material-ui/core/colors'
 
 
 const useStyles = makeStyles((theme) => ({
