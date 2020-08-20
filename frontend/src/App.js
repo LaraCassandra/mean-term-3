@@ -1,29 +1,44 @@
 import React from 'react';
 import './App.css';
-import { Navigation } from './components/Navigation.js'
-import { Home } from './components/Home.js'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Switch
+} from "react-router-dom";
+
+import Home from './Components/Home';
 import Login from './Components/Login'
 
 function App() {
   return (
     <Router>
-      <nav>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/login">Login</Link>
-        </li>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-      </nav>
+      <div>
 
-      <Switch>
-        <Route path="/about">
+        <nav>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
+          <li>
+            <Link to="/register">Home</Link>
+          </li>
+        </nav>
 
-        </Route>
-      </Switch>
+        <Switch>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/users">
+            {/* <Users /> */}
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
+      </div>
     </Router>
   );
 }

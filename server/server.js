@@ -1,18 +1,19 @@
 var path = require('path')
+require('dotenv').config()
 var express = require('express')
 var app = express()
 var port = 8000
-var bodyParser = require('body-parser')
+
+// LINKING FILES
 var authenticator = require('./authenticator')
-
-// LINK LOGGER.JS
 var logger = require('./logger')
-
-// LINK DATA.JS
 var data = require('./data')
-// const { time } = require('console')
-// const { teachers } = require('./data')
-// const { json, response } = require('express')
+
+var bodyParser = require('body-parser')
+var cookieParser = require('cookie-parser')
+const jwt = require("jsonwebtoken")
+const { PassThrough } = require('stream')
+const { classes } = require('./data')
 
 // ROUTING TO INDEX.HTML
 var urlpath = path.join(__dirname, '../frontend/build')
@@ -29,9 +30,12 @@ app.use(logger)
 // CHECKS IF THE FILES WE ARE SEARCHING FOR ARE STATIC
 app.use(express.static(urlpath))
 
-// app.use(bodyParser.json())
+app.use(cookieParser())
 
-app.use(authenticator)
+// LOOKS FOR RAW BODY DATA
+app.use(bodyParser.json())
+
+// app.use(authenticator)
 
 //* END OF MIDDLEWARE
 
@@ -120,8 +124,6 @@ app.get('/api/classes/:id/details', (req, res) => {
         for (var j = 0; j < data.teachers[i].classes.length; j++) {
             if (data.teachers[i].classes[j] === parseInt(id)) {
                 teacherName = data.teachers[i].name;
-
-
             }
 
         }
@@ -183,20 +185,31 @@ app.get('/api/teachers/:id', (req, res) => {
 
 
 //* GET CLASSES TAUGHT BY SPECIFIC TEACHER
-// TODO: DISPLAY CLASS NAMES
 app.get('/api/teachers/:id/classes', (req, res) => {
     var teacherName = [];
-    var teachersClasses = [];
+    var classesID = [];
+    var className = [];
 
     var id = req.params.id;
+
     for (var i = 0; i < data.teachers.length; i++) {
         if (data.teachers[i].id === parseInt(id)) {
             teacherName.push(data.teachers[i].name);
+            for (var j = 0; j < data.teachers[i].classes.length; j++) {
+                classesID.push(data.teachers[i].classes[j]);
+            }
         }
-        teachersClasses.push(data.classes[i].subject);
     }
 
-    var results = { teacherName, teachersClasses };
+    for (var i = 0; i < classesID.length; i++) {
+        for (var j = 0; j < data.classes.length; j++) {
+            if (classesID[i] == data.classes[j].id) {
+                className.push(data.classes[j].subject)
+            }
+        }
+    }
+
+    var results = { teacherName, className };
 
     res.json(results);
 });
@@ -207,26 +220,31 @@ app.get('/api/teachers/:id/classes', (req, res) => {
 //* GET CLASSES ATTENDED BY SPECIFIC STUDENTS
 // TODO: DISPLAY CLASS NAMES
 app.get('/api/learners/:id/classes', (req, res) => {
-    var learnerName = null;
-    var classID = [];
-    var learnersClasses = [];
+    var learnerName = [];
+    var classesID = [];
+    var className = [];
 
     var id = req.params.id;
+
     for (var i = 0; i < data.learners.length; i++) {
         if (data.learners[i].id === parseInt(id)) {
-            learnerName = data.learners[i].name;
-            classID.push(data.learners[i].classes)
+            learnerName.push(data.learners[i].name);
+            for (var j = 0; j < data.learners[i].classes.length; j++) {
+                classesID.push(data.learners[i].classes[j]);
+            }
         }
     }
 
-    for (var i = 0; i < data.classes.length; i++) {
-        if (data.classes[i].id === classID) {
-            learnersClasses.push(data.classes[i].subject)
+    for (var i = 0; i < classesID.length; i++) {
+        for (var j = 0; j < data.classes.length; j++) {
+            if (classesID[i] == data.classes[j].id) {
+                className.push(data.classes[j].subject)
+            }
         }
     }
 
+    var results = { learnerName, className };
 
-    var results = [{ learnerName }, { learnersClasses }]
     res.json(results);
 });
 
@@ -240,7 +258,14 @@ app.get('/api/learners/:id/classes', (req, res) => {
 app.post('/api/login', (req, res) => {
     var loginDetails = req.body
     console.log(loginDetails)
-    res.json(loginDetails)
+
+    const token = jwt.sign({ "name": "Lara", "id": "123455885452" }, process.env.ACCESS_TOKEN_SECRET)
+    res.cookie("token", token)
+    res.json({ token: token })
+});
+
+app.get('/api/protected', authenticator, (req, res) => {
+    res.json(req.user)
 })
 
 // DEPLOY THE APPLICATION
