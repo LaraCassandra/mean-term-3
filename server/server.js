@@ -4,20 +4,29 @@ var express = require('express')
 var app = express()
 var port = 8000
 
+// CROSS ORIGIN HANDLING
+var cors = require('cors')
+
 // LINKING FILES
 var authenticator = require('./authenticator')
 var logger = require('./logger')
 var data = require('./data')
 
+// AUTHENTICATOR & PASSWORD ENCRYPTION
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
 const jwt = require("jsonwebtoken")
-const { PassThrough } = require('stream')
-const { classes } = require('./data')
+const { json } = require('body-parser')
+
 
 // ROUTING TO INDEX.HTML
 var urlpath = path.join(__dirname, '../frontend/build')
 
+// SET ORIGIN TO ALLOW LOCALHOST:3000 TO MAKE REQUESTS (FRONTEND)
+var corsOptions = {
+    origin: '*', //FRONTEND
+    optionSuccessStatus: 200
+}
 
 
 
@@ -26,6 +35,9 @@ var urlpath = path.join(__dirname, '../frontend/build')
 
 // LOGS THE REQUESTS
 app.use(logger)
+
+// ALLOW ONLY SPECIFIC ORIGINS TO MAKE REQUESTS
+app.use(cors(corsOptions))
 
 // CHECKS IF THE FILES WE ARE SEARCHING FOR ARE STATIC
 app.use(express.static(urlpath))
@@ -94,10 +106,14 @@ app.get('/api/classes/:id', (req, res) => {
 app.get('/api/classes/:id/details', (req, res) => {
 
     // VARIABLES
+
+    var id = req.params.id;
+
+    // SUBJECT
+    var classSubject = "";
+
     // TEACHER
     var teacherName = "";
-    var classSubject = "";
-    var id = req.params.id;
 
     // STUDENTS
     var classStudents = [];
@@ -125,9 +141,7 @@ app.get('/api/classes/:id/details', (req, res) => {
             if (data.teachers[i].classes[j] === parseInt(id)) {
                 teacherName = data.teachers[i].name;
             }
-
         }
-
     }
 
     //FIND STUDENTS OF CLASS
@@ -136,9 +150,7 @@ app.get('/api/classes/:id/details', (req, res) => {
             if (data.learners[i].classes[j] === parseInt(id)) {
                 classStudents.push(data.learners[i].name);
             }
-
         }
-
     }
 
     // FIND DAY AND PERIODS OF CLASS
@@ -218,7 +230,6 @@ app.get('/api/teachers/:id/classes', (req, res) => {
 
 
 //* GET CLASSES ATTENDED BY SPECIFIC STUDENTS
-// TODO: DISPLAY CLASS NAMES
 app.get('/api/learners/:id/classes', (req, res) => {
     var learnerName = [];
     var classesID = [];
@@ -248,25 +259,30 @@ app.get('/api/learners/:id/classes', (req, res) => {
     res.json(results);
 });
 
+
 //* END OF CALLING JSON DATA FROM DATA.JS
 
 
 
-
+// REDIRECTING /HOME TO GO TO HOMEPAGE
+app.get('/home', (req, res) => {
+    res.redirect(301, '/')
+});
 
 // GET LOGIN DETAILS
 app.post('/api/login', (req, res) => {
     var loginDetails = req.body
     console.log(loginDetails)
 
+    // JWT CREATES A TOKEN TO ENCRYPT DATA AND POST INTO DATABASE
     const token = jwt.sign({ "name": "Lara", "id": "123455885452" }, process.env.ACCESS_TOKEN_SECRET)
     res.cookie("token", token)
     res.json({ token: token })
 });
 
-app.get('/api/protected', authenticator, (req, res) => {
+app.post('/api/protected', authenticator, (req, res) => {
     res.json(req.user)
-})
+});
 
 // DEPLOY THE APPLICATION
 app.listen(port, () => {

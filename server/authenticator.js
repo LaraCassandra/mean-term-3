@@ -1,16 +1,8 @@
 const jwt = require("jsonwebtoken")
 
 module.exports = function (req, res, next) {
-    //* OLD AUTHENTICATOR
-    //     var passcode = 'super-secret';
-    //     if (request.query.passcode === passcode) {
-    //         next();
-    //     }
-    //     else {
-    //         response.send(401);
-    //     }
 
-    //* NEW AUTHENTICATOR
+    //* AUTHENTICATOR
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
 
