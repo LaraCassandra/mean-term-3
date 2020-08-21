@@ -15,3 +15,72 @@ ul, li, a, a:active, a:any-link  {
 nav {
   display: flex;
 }
+
+
+.tableBody {
+  width: 80%;
+  margin: 40px 0 60px 0;
+}
+
+.classBody {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+   background-color: #f1f1f1;
+}
+
+thead {
+  color: white;
+  background: linear-gradient(to right, red, orange);
+  color: white;
+}
+
+table th {
+  color: white;
+}
+
+table th, td {
+  width: 550px;
+  height: 50px;
+  text-align: center;
+}
+
+.label {
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-top: 50px;
+}
+
+.info-body {
+  min-height: 90vh;
+  background-color: #f1f1f1;
+  padding-top: 250px;
+}
+
+.info-box {
+  height: 500px;
+  width: 1000px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.class-heading {
+  font-size: 25px;
+  margin-top: 10px;
+}
+
+.class-info {
+  font-size: 25px;
+  margin-bottom: 10px;
+}
+
+.edit {
+  text-align: center;
+  padding-top: 5px;
+}

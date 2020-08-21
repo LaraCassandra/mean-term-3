@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import '../Css/Home.css'
 import HomeCard from './HomeCard'
 
@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles({
     gridContainer: {
-        padding: "40px",
+        padding: "120px",
     }
 })
 
@@ -19,7 +19,7 @@ export const Home = () => {
     return (
         <div>
             <div className="header">
-                <img className="header" src="./header.jpg"
+                <img className="header" src={require('../header.jpg')}
                     alt="logo" />
             </div>
 

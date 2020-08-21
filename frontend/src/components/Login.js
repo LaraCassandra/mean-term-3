@@ -42,7 +42,7 @@ export default function Login() {
 
             <Paper className="form">
                 <form >
-                    <h1>Welcome Back</h1>
+                    <h1 className="h1">Welcome Back</h1>
                     <p className="p">Please sign into your account</p>
 
                     <label>Username:</label>
