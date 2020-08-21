@@ -11,6 +11,7 @@ import { makeStyles, AppBar, Toolbar, Button } from "@material-ui/core"
 import Home from './Components/Home';
 import Login from './Components/Login';
 import Classes from "./Components/Classes"
+import ClassInfo from './Components/ClassInfo'
 
 const useStyles = makeStyles((theme) => ({
   navbar: {
@@ -51,6 +52,12 @@ function App() {
               </Button>
             </li>
 
+            <li>
+              <Button>
+                <Link to="/login">Logout</Link>
+              </Button>
+            </li>
+
           </Toolbar>
 
         </AppBar>
@@ -63,6 +70,10 @@ function App() {
 
           <Route path="/classes">
             <Classes />
+          </Route>
+
+          <Route path="/classes/:id/details">
+            <ClassInfo />
           </Route>
 
         </Switch>
