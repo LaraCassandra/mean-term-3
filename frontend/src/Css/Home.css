@@ -1,4 +1,5 @@
 .header {
-    height: 80vh;
-    background-color: rebeccapurple;
+    position: relative;
+    min-height: 80vh;
+    background-color: black;
 }

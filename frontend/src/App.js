@@ -7,6 +7,7 @@ import Home from './Components/Home';
 import Classes from './Components/Classes';
 import Login from './Components/Login';
 import ClassInfo from './Components/ClassInfo';
+import Footer from './Components/Footer';
 
 // REACT ROUTER DOM 
 import {
@@ -32,6 +33,7 @@ function App() {
           <Route path="/classes/:id" component={ClassInfo} />
         </Switch>
 
+        <Footer />
 
       </div>
     </Router>

@@ -1,4 +1,8 @@
 import React, { useState } from 'react'
+import '../Css/Login.css'
+
+// MATERIAL UI
+import { Paper } from '@material-ui/core'
 
 export default function Login() {
 
@@ -34,29 +38,35 @@ export default function Login() {
 
 
     return (
-        <div>
+        <div className="body">
 
-            <form>
-                <label>Username:</label>
-                <input
-                    type="text"
-                    name="username"
-                    value={name}
-                    onChange={e => onNameChange(e)} />
+            <Paper className="form">
+                <form >
+                    <h1>Welcome Back</h1>
+                    <p className="p">Please sign into your account</p>
 
-                <br />
+                    <label>Username:</label>
+                    <input
+                        type="text"
+                        name="username"
+                        value={name}
+                        onChange={e => onNameChange(e)} />
 
-                <label>Password:</label>
-                <input
-                    type="password"
-                    name="password"
-                    value={password}
-                    onChange={e => onPasswordChange(e)} />
+                    <br />
+
+                    <label>Password:</label>
+                    <input
+                        type="password"
+                        name="password"
+                        value={password}
+                        onChange={e => onPasswordChange(e)} />
+                    <button className="button" onClick={() => submitForm()}>Submit</button>
+
+                </form>
 
 
-            </form>
 
-            <button onClick={() => submitForm()}>Submit</button>
+            </Paper>
 
         </div>
     )

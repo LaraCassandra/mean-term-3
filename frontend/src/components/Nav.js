@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
         flex: 1,
     },
     nav: {
-        background: "linear-gradient(to right, red, orange)",
+        background: "linear-gradient(to right, red, red, orange)",
     },
 }));
 

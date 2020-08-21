@@ -84,6 +84,20 @@ app.get('/api/subjects', (req, res) => {
 
 
 
+//* LIST OF ALL TEACHERS
+app.get('/api/teachers', (req, res) => {
+    var teacherList = [];
+
+    for (var i = 0; i < data.teachers.length; i++) {
+        teacherList.push(data.teachers[i].name)
+    }
+
+    res.json(teacherList);
+})
+
+
+
+
 //* SEARCH CLASS BY ID 
 app.get('/api/classes/:id', (req, res) => {
     var id = req.params.id;
