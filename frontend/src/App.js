@@ -1,82 +1,38 @@
 import React from 'react';
 import './App.css';
+
+// IMPORT COMPONENTS
+import Nav from './Components/Nav';
+import Home from './Components/Home';
+import Classes from './Components/Classes';
+import Login from './Components/Login';
+import ClassInfo from './Components/ClassInfo';
+
+// REACT ROUTER DOM 
 import {
   BrowserRouter as Router,
-  Route,
-  Link,
-  Switch
-} from "react-router-dom";
-import { makeStyles, AppBar, Toolbar, Button } from "@material-ui/core"
+  Switch,
+  Route
+} from 'react-router-dom';
 
-import Home from './Components/Home';
-import Login from './Components/Login';
-import Classes from "./Components/Classes"
-import ClassInfo from './Components/ClassInfo'
 
-const useStyles = makeStyles((theme) => ({
-  navbar: {
-    padding: "0",
-  },
-  grow: {
-    flex: 1,
-  },
-}));
 
 function App() {
-
-  const classes = useStyles();
 
   return (
     <Router>
       <div>
-        <AppBar className={classes.navbar} position="static" color="primary">
-          <Toolbar>
 
-            <li>
-              <Button>
-                <Link to="/">Home</Link>
-              </Button>
-            </li>
-
-            <Button>
-              <li>
-                <Link to="/classes">Classes</Link>
-              </li>
-            </Button>
-
-            <div className={classes.grow} />
-
-            <li>
-              <Button>
-                <Link to="/login">Login</Link>
-              </Button>
-            </li>
-
-            <li>
-              <Button>
-                <Link to="/login">Logout</Link>
-              </Button>
-            </li>
-
-          </Toolbar>
-
-        </AppBar>
+        <Nav />
 
         <Switch>
-
-          <Route path="/login">
-            <Login />
-          </Route>
-
-          <Route path="/classes">
-            <Classes />
-          </Route>
-
-          <Route path="/classes/:id/details">
-            <ClassInfo />
-          </Route>
-
+          <Route path="/" exact component={Home} />
+          <Route path="/login" component={Login} />
+          <Route path="/classes" exact component={Classes} />
+          <Route path="/classes/:id" component={ClassInfo} />
         </Switch>
+
+
       </div>
     </Router>
   );

@@ -1,32 +1,28 @@
-import React, { useState, Fragment } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import '../App.css';
 
-export const ClassInfo = () => {
+function ClassInfo({ match }) {
 
-    var { id } = useParams();
+    useEffect(() => {
+        fetchInfo();
+        console.log(match)
+    }, []);
 
-    const [info, setInfo] = useState({});
+    const [info, setInfo] = useState([]);
 
-    fetch('http://localhost:8000/api/classes' + id + 'details', {
-        method: 'POST',
-    })
-        .then((res) => res.json())
-        .then((data) => {
-            setInfo(data);
-        })
-        .catch((err) => {
-            console.log(`Fetch failed: ${err}`)
-        });
+    const fetchInfo = async () => {
+        const fetchInfo = await fetch(`http://localhost:8000/api/classes/${match.params.id}/details`);
+        const info = await fetchInfo.json();
 
+        console.log(info);
+        setInfo(info);
+    };
 
     return (
-        <Fragment>
-
-            <h1>{info.teacher}</h1>
-
-        </Fragment>
+        <div>
+            <h1>{info.classSubject}</h1>
+        </div>
     )
-
 }
 
 export default ClassInfo;

@@ -1,56 +1,33 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import '../App.css'
+import React, { useEffect, useState } from 'react';
+import '../App.css';
+import { Link } from 'react-router-dom';
 
-export const Classes = () => {
+function Classes() {
+
+    useEffect(() => {
+        fetchClasses();
+    }, []);
 
     const [classes, setClasses] = useState([]);
 
-    useEffect(() => {
-        fetch('http://localhost:8000/api/classes')
-            .then((res) => res.json())
-            .then((data) => {
-                setClasses(data);
-            })
-            .catch((err) => {
-                console.log(`Fetch failed: ${err}`)
-            });
-    }, [])
-
+    const fetchClasses = async () => {
+        const data = await fetch('http://localhost:8000/api/classes');
+        const classes = await data.json();
+        console.log(classes)
+        setClasses(classes);
+    }
 
     return (
-        <Fragment>
-            <h1>Classes</h1>
-            <div className="myTable">
-
-                <table >
-                    <thead>
-                        <tr>
-                            <th>Class</th>
-                            <th>Classroom</th>
-                            <th>Slot</th>
-                        </tr>
-                    </thead>
-                </table>
-
-                {classes.length
-                    ? classes.map((s, index) => {
-                        return (
-                            <table key={index}>
-                                <tbody >
-                                    <tr>
-                                        <td>{s.subject}</td>
-                                        <td>{s.classroom}</td>
-                                        <td>{s.slot}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        )
-                    })
-                    : "No classes available"}
-            </div>
-        </Fragment>
+        <div>
+            {classes.map(item => (
+                <h1 key={item.id}>
+                    <Link to={`/classes/${item.id}`}>{item.subject}</Link>
+                </h1>
+            ))}
+        </div>
     )
-
 }
+
+
 
 export default Classes;

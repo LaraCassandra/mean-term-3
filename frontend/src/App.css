@@ -12,23 +12,6 @@ ul, li, a, a:active, a:any-link  {
   list-style: none;
 }
 
- table { 
-  width: 100%; 
-  border-collapse: collapse; 
+nav {
+  display: flex;
 }
-
- th { 
-  background: #333; 
-  color: white; 
-  font-weight: bold; 
-}
-
-td, th { 
-  padding: 6px; 
-  border: 1px solid #ccc; 
-  text-align: left; 
-}
-
-.myTable {
-  width: 80%;
-} 
