@@ -1,6 +1,6 @@
-## **High School Scheduling System**
+## **MEAN TERM TWO: EXPRESS**
 
-#### By Lara Cook | 190218
+### By Lara Cook | 190218
 
 <br />
 
@@ -9,13 +9,22 @@
 ## **Introduction**
 
 ---
+### High School Scheduling System
+<br />
 
 **The Brief**
 
 This project required me to create a high school scheduling system that makes use of NPM, ReactJS, ExpressJS and my own API that contained the necessary information for the scheduling. The information on the website is all populated by the API data. There is a login system which determines which type of user that logs in, where students can view their classes and the teachers can edit the class information. 
 
+
+
+<br />
+
 **The Project**
 
+Summerville High School is a fictional school that I created. This is a hypothetical website where teachers and students of Summerville High School could use to schedule classes.
+
+<br />
 
 This project assumes you have NPM. Before beginning, please make sure you have NPM correctly installed.
 
@@ -54,35 +63,60 @@ $ npm install
 
 ---
 
-Once the dependencies are installed, you need to start the application so that you are able to open it in your browser.
+Once the dependencies are installed, you need to start the application so that you are able to open it in your browser. Navigate to the backend and once there
 
-**Run the application:**
+
+**Run the backend:**
 
 ```
-$ npm start
-
-or
-
-$ yarn start
+$ nodemon
 ```
 
 <br/>
 
-**You should now be able to open the project in your browser**
+**Open the project in your browser**
 
-Open [http://localhost:8000](http://localhost:3000) to view it.
+[http://localhost:8000]
+
+<br />
 
 ---
 
 ## **Additional Information**
 
 ---
+<br />
 
-### Features:
+## Requests:
 
+<br />
 
+**A list of all the classes**
+```
+http://localhost:8000/api/classes
+```
 
-### Benefits:
+**Details of a specific class**
+```
+http://localhost:8000/api/classes/:id/details
+```
 
+**A list of all the subjects**
+```
+http://localhost:8000/api/subjects
+```
 
-### **Thanks for your time! Hope you enjoy!**
+**A list of all the teachers**
+```
+http://localhost:8000/api/teachers
+```
+
+**A list of classes taught by a specific teacher**
+```
+http://localhost:8000/api/teachers/:id/classes
+```
+
+**A list of classes attended by a specific learner**
+```
+http://localhost:8000/api/learners/:id/classes
+```
